@@ -38,11 +38,16 @@
             [ ] create dashboard to add books 
         [ ] create landing page.
 
+## how to make this working
+    `enter server folder and do npm i or yarn and then npm run start:dev => hit url 127.0.0.1:4000`
+    `enter client folder and do npm i or yarn and then npm start => hit url 127.0.0.1:3000`
+    
 ## Ps
 * every function need to be commented respecting jsdoc
 
  * we add other stuff later like : searching - swagger ui  - ci config 
 
  * follow the gitflow / github work flow .
+ 
 
 
