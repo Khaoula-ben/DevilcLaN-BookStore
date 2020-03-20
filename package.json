@@ -1,0 +1,21 @@
+{
+  "name": "DevilClan-bookstore",
+  "version": "1.0.0",
+  "description": "A plateforme for selling books online will be created with",
+  "main": "index.js",
+  "scripts": {
+    "Start:Client" : "cd ./client && npm start",
+    "Start:Server" : "cd ./server && npm start:dev",
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElitDevs/DevilcLaN-BookStore.git"
+  },
+  "keywords": [],
+  "author": "Baraka Larbi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElitDevs/DevilcLaN-BookStore/issues"
+  },
+  "homepage": "https://github.com/ElitDevs/DevilcLaN-BookStore#readme"
+}
