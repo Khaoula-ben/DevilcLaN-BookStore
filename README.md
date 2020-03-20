@@ -7,7 +7,7 @@
     - Nestjs - react - redux - typeorm - algolia - postgres - jest(for testing)
 
 ## how to start 
-    - clone backend repo from url : 
+    - clone backend repo from url : `https://github.com/ElitDevs/DevilcLaN-BookStore/tree/backend`
         - npm install 
         - enjoy programming :joy:
     - clone frontend repo from url :
