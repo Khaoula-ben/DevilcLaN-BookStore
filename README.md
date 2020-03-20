@@ -43,6 +43,6 @@
 
  * we add other stuff later like : searching - swagger ui  - ci config 
 
- * follow the gitflow work flow .
+ * follow the gitflow / github work flow .
 
 
