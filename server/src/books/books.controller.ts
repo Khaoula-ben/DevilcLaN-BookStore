@@ -1,41 +1,36 @@
 import { Controller, Get, Param, ParseIntPipe, Post, UsePipes, ValidationPipe, Body, Delete, Patch } from '@nestjs/common';
 import { Book } from './book.entity';
 import { BooksService } from './books.service';
-import { createBookDto } from './../dto/create-book.dto';
+import { BookDto } from './../dto/book.dto';
 
 @Controller('books')
 export class BooksController {
 
     constructor(private booksService: BooksService) { }
 
-
-    // @Get()
-    // gestBooks(): Promise<Book[]> {
-
-    //     return
-    // }
-
+    @Get()
+    getBooks(): Promise<Book[]> {
+        return this.booksService.getBooks();
+    }
 
     @Get('/:id')
-    getBookById(@Param('id') id: number): Promise<Book> {
-        console.log('getBookById', id);
+    getBookById(@Param('id', ParseIntPipe) id: number): Promise<Book> {
         return this.booksService.getBookById(id);
     }
 
     @Post()
     @UsePipes(ValidationPipe)
-    createBook(@Body() createBookDto: createBookDto): Promise<Book> {
-        console.log('createBook');
+    createBook(@Body() createBookDto: BookDto): Promise<Book> {
         return this.booksService.createBook(createBookDto);
     }
 
     @Patch('/:id/update')
-    updateBook(@Param('id') id: number, bookdto: createBookDto): Promise<Book> {
-        return this.booksService.updateBook(id, bookdto);
+    updateBook(@Param('id', ParseIntPipe) id: number, @Body() updatebookDto: BookDto): Promise<void> {
+        return this.booksService.updateBook(id, updatebookDto);
     }
+
     @Delete('/:id')
     deleteBook(@Param('id', ParseIntPipe) id: number): Promise<void> {
-        console.log('DeleteBook', id);
         return this.booksService.deleteBook(id);
     }
 }

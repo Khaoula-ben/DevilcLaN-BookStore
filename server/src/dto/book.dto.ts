@@ -1,7 +1,7 @@
 
 import { IsNotEmpty, IsNumber, IsInt, IsDecimal } from 'class-validator';
 
-export class createBookDto {
+export class BookDto {
 
     @IsNotEmpty()
     book_name: string;
