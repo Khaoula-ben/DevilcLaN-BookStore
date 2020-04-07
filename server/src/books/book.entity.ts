@@ -1,7 +1,8 @@
 
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, ManyToMany } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, ManyToMany, ManyToOne, JoinTable, JoinColumn } from "typeorm";
 import { User } from "src/users/user.entity";
-import { Category } from "src/categories/category.entity";
+import { Category } from "src/category/category.entity";
+import { Author } from "src/author/author.entity";
 
 @Entity()
 export class Book extends BaseEntity {
@@ -11,14 +12,17 @@ export class Book extends BaseEntity {
     book_name: string;
     @Column()
     book_page: number;
-    @Column({ nullable: false })
+    @Column({ nullable: false, type: "text", unique: true })
     bookisbn: string;
     @Column('decimal')
     book_price: number;
+    @ManyToMany(type => Author, Author => Author.id)
+    @JoinTable()
+    authors: Author[];
+    @ManyToOne(type => Category, Category => Category.id)
+    @JoinTable()
+    categories: Category[];
     @ManyToMany(type => User, User => User.id)
-    id_author: string;
-    @OneToOne(type => Category)
-    id_category: number;
-    @ManyToMany(type => User)
-    id_user: number;
+    @JoinTable()
+    user: User;
 }

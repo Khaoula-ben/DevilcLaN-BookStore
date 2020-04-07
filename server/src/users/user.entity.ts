@@ -1,22 +1,35 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, OneToMany } from "typeorm"
-import { Book } from "src/books/book.entity";
-
+import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, OneToMany, ManyToMany, BeforeInsert } from "typeorm";
+import * as bcrypt from 'bcryptjs';
 @Entity()
 export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
-    @Column()
+
+    @Column({ type: 'varchar', nullable: false, unique: true })
+    username: string;
+    @Column({ type: 'varchar', nullable: false })
+    password: string;
+
+    @Column({ type: "varchar", length: "50" })
     first_name: string;
-    @Column()
+    @Column({ type: "varchar", length: "50" })
     last_name: string;
-    @Column()
+    @Column({ type: "text", })
     adress: string;
     @Column()
     phone: number;
-    @Column()
+    @Column({ type: "text", unique: true })
     email: string;
-    @OneToMany(type => Book, book => book.id)
-    id_book: number;
+
+    @BeforeInsert()
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, 10);
+
+    }
+
+    async validatePassword(pwd: string): Promise<boolean> {
+        return await bcrypt.compare(pwd, this.password);
+    }
 
 }

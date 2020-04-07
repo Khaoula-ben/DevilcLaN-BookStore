@@ -1,8 +1,10 @@
-import { Injectable, Get, NotFoundException } from '@nestjs/common';
+import { Injectable, Get, NotFoundException, ParseIntPipe } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { User } from './user.entity';
 import { UserDto } from 'src/dto/user.dto';
+import { AuthDto } from './../dto/auth.dto';
+import { FindOptionsUtils } from 'typeorm';
 
 
 @Injectable()
@@ -10,8 +12,11 @@ export class UsersService {
 
     constructor(@InjectRepository(UserRepository)
     private UserRepository: UserRepository, ) { }
-
-
+    //********************************************************************************************** */
+    async getUserByName(username: string): Promise<User> {
+        return await this.UserRepository.findOne({ username });
+    }
+    //************************************************************************************************* */
     async getUsers(): Promise<User[]> {
         return await this.UserRepository.find();
     }
@@ -30,9 +35,11 @@ export class UsersService {
     }
 
     async updateUserInfos(id: number, updateUserDto: UserDto): Promise<void> {
-        const result = await this.UserRepository.update(id, updateUserDto);
-        if (result.affected === 0)
-            throw new NotFoundException(`User with ID "${id}" not found`);
+        if (updateUserDto) {
+            const result = await this.UserRepository.update(id, updateUserDto);
+            if (result.affected === 0)
+                throw new NotFoundException(`User with ID "${id}" not found`);
+        }
     }
 
     async deleteUser(id: number): Promise<void> {
