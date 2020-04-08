@@ -22,7 +22,7 @@ export class Book extends BaseEntity {
     @ManyToOne(type => Category, Category => Category.id)
     @JoinTable()
     categories: Category[];
-    @ManyToMany(type => User, User => User.id)
+    @ManyToMany(type => User, User => User.id, { eager: true })
     @JoinTable()
     user: User;
 }

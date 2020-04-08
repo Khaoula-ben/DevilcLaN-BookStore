@@ -1,9 +1,13 @@
-import { Controller, Get, Param, ParseIntPipe, Post, UsePipes, ValidationPipe, Body, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post, UsePipes, ValidationPipe, Body, Delete, Patch, UseGuards } from '@nestjs/common';
 import { Book } from './book.entity';
 import { BooksService } from './books.service';
 import { BookDto } from './../dto/book.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/users/user.entity';
+import { GestUser } from 'src/auth/gest-user.decorator';
 
 @Controller('books')
+@UseGuards(AuthGuard())
 export class BooksController {
 
     constructor(private booksService: BooksService) { }
@@ -20,8 +24,8 @@ export class BooksController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    createBook(@Body() createBookDto: BookDto): Promise<Book> {
-        return this.booksService.createBook(createBookDto);
+    createBook(@Body() createBookDto: BookDto, @GestUser() user: User): Promise<Book> {
+        return this.booksService.createBook(createBookDto, user);
     }
 
     @Patch('/:id/update')

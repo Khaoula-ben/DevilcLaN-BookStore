@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BookRepository } from './book.repository';
 import { Book } from './book.entity';
 import { BookDto } from './../dto/book.dto';
+import { User } from 'src/users/user.entity';
 
 
 
@@ -25,9 +26,9 @@ export class BooksService {
             return book;
     }
 
-    async  createBook(createBookDto: BookDto): Promise<Book> {
-        const book = this.BookRepository.create(createBookDto);
-        return await this.BookRepository.save(book);
+    async  createBook(createBookDto: BookDto, user: User): Promise<Book> {
+        // const book = this.BookRepository.create(createBookDto, user);
+        return await this.BookRepository.createBook(createBookDto, user);
     }
 
     async updateBook(id: number, updateBookDto: BookDto): Promise<void> {

@@ -5,26 +5,30 @@ import { UserRepository } from '../users/user.repository';
 import { AuthDto } from 'src/dto/auth.dto';
 import { User } from 'src/users/user.entity';
 import * as bcrypt from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private UserService: UsersService) { }
+    constructor(private UserService: UsersService, private jwtService: JwtService, ) {
+
+    }
 
 
     async signUp(authDto: AuthDto): Promise<void> {
         // const user = await this.UserService.getUserByName(authDto.username);
         const { username, password } = authDto;
-
+        console.log('============>', username, password);
         const user = new User();
         user.username = username;
-        user.username = await this.hashPassword(password)
-        const pwd = await user.validatePassword(user.password);
+        user.password = await this.hashPassword(password);
+        console.log('============>', user.username, user.password);
+        console.log('============>', user);
 
         try {
             await user.save();
         } catch (err) {
-            if (err === '23505') {
+            if (err === '23505') { //duplicate username
                 throw new ConflictException('Username Alredy exists')
             }
             else {
@@ -34,13 +38,21 @@ export class AuthService {
 
     }
 
-    async signIn(authDto: AuthDto): Promise<string> {
+    async signIn(authDto: AuthDto): Promise<any> {
         const { username, password } = authDto;
         const user = await this.UserService.getUserByName(username);
-        if (user && user.validatePassword(password))
-            return user.username;
-        else
-            return null;
+        if (!(user && user.validatePassword(password)))
+            return 'Invalid authentification !!';
+
+        const payload = { username };
+        const accessToken = await this.jwtService.sign(payload);
+        return { accessToken }
+
+
+
+
+
+
     }
 
     async hashPassword(password: string): Promise<string> {

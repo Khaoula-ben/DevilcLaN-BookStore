@@ -9,5 +9,7 @@ export class BookDto {
     book_page: number;
     @IsNotEmpty()
     book_price: number;
+    @IsNotEmpty()
+    bookisbn: string;
 
 }
