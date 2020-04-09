@@ -8,6 +8,7 @@ export class Author extends BaseEntity {
     id: number;
     @Column()
     author_name: string;
-
+    @ManyToMany(type => Book, book => book.authors)
+    books: Book[];
 
 }

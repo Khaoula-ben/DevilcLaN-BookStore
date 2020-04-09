@@ -9,15 +9,17 @@ export class BookRepository extends Repository<Book>{
 
     async  createBook(createBookDto: BookDto, user: User): Promise<Book> {
 
-        const { book_name, book_page, book_price, bookisbn } = createBookDto;
+        const { book_name, book_page, book_price, bookisbn, book_qauntity } = createBookDto;
         const book = new Book;
         book.book_name = book_name;
         book.book_page = book_page;
         book.book_price = book_price;
         book.bookisbn = bookisbn;
+        book.book_qauntity = book_qauntity;
         book.user = user;
 
-        return await book.save();
+        await book.save();
+        return book;
     }
 
 

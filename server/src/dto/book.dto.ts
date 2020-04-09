@@ -11,5 +11,7 @@ export class BookDto {
     book_price: number;
     @IsNotEmpty()
     bookisbn: string;
+    @IsNotEmpty()
+    book_qauntity: number;
 
 }

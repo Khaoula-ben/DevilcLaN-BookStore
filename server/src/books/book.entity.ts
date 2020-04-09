@@ -16,11 +16,12 @@ export class Book extends BaseEntity {
     bookisbn: string;
     @Column('decimal')
     book_price: number;
-    @ManyToMany(type => Author, Author => Author.id)
+    @Column({ nullable: true })
+    book_qauntity: number;
+    @ManyToMany(type => Author, Author => Author.books)
     @JoinTable()
     authors: Author[];
     @ManyToOne(type => Category, Category => Category.id)
-    @JoinTable()
     categories: Category[];
     @ManyToMany(type => User, User => User.id, { eager: true })
     @JoinTable()
