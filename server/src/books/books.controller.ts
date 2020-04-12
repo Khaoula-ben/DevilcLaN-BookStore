@@ -24,8 +24,8 @@ export class BooksController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    createBook(@Body() createBookDto: BookDto, @GestUser() user: User): Promise<Book> {
-        return this.booksService.createBook(createBookDto, user);
+    createBook(@Body() createBookDto: BookDto): Promise<Book> {
+        return this.booksService.createBook(createBookDto);
     }
 
     @Patch('/:id/update')

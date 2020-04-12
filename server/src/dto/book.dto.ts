@@ -1,5 +1,6 @@
 
 import { IsNotEmpty, IsNumber, IsInt, IsDecimal } from 'class-validator';
+import { Author } from 'src/author/author.entity';
 
 export class BookDto {
 
@@ -13,5 +14,9 @@ export class BookDto {
     bookisbn: string;
     @IsNotEmpty()
     book_qauntity: number;
+    @IsNotEmpty()
+    category: any;
+    @IsNotEmpty()
+    authors: Array<Author>;
 
 }

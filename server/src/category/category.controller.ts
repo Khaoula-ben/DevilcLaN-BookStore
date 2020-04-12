@@ -17,6 +17,7 @@ export class CategoryController {
     getCategoryById(@Param('id', ParseIntPipe) id: number): Promise<Category> {
         return this.categoryService.getCategoryById(id);
     }
+
     @Post()
     @UsePipes(ValidationPipe)
     createCategory(@Body() createCategoryDto: CategoryDto): Promise<Category> {

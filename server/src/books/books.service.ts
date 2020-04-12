@@ -4,15 +4,26 @@ import { BookRepository } from './book.repository';
 import { Book } from './book.entity';
 import { BookDto } from './../dto/book.dto';
 import { User } from 'src/users/user.entity';
+import { In } from 'typeorm';
+import { CategoryService } from 'src/category/category.service';
+import { CategoryRepository } from 'src/category/category.repository';
+import { Category } from 'src/category/category.entity';
 
 
 
 @Injectable()
 export class BooksService {
 
-    constructor(@InjectRepository(BookRepository)
-    private BookRepository: BookRepository,
+    constructor(
+        // private CategoryService: CategoryService,
+        @InjectRepository(BookRepository)
+        private BookRepository: BookRepository,
+        @InjectRepository(CategoryRepository)
+        private CategoryRepository: CategoryRepository,
+
     ) { }
+
+
 
     async getBooks(): Promise<Book[]> {
         return await this.BookRepository.find();
@@ -26,9 +37,28 @@ export class BooksService {
             return book;
     }
 
-    async  createBook(createBookDto: BookDto, user: User): Promise<Book> {
-        // const book = this.BookRepository.create(createBookDto, user);
-        return await this.BookRepository.createBook(createBookDto, user);
+    async  createBook(createBookDto: BookDto): Promise<Book> {
+        const category = await this.CategoryRepository.getCategoryByName(createBookDto.category);
+        if (category) {
+            const book = this.BookRepository.create(createBookDto);
+            book.category = category.id;
+            return this.BookRepository.save(book);
+        }
+        else {
+            const newCategory = new Category;
+            newCategory.category_name = createBookDto.category;
+            const categoryTocreate = await this.CategoryRepository.create(newCategory)
+            const category_id = categoryTocreate.save();
+            //------------------- Book -------------------------------------
+            const book = await this.BookRepository.create(createBookDto);
+            book.category = (await category_id).id;
+            return book.save();
+        }
+        //return await this.BookRepository.createBook(createBookDto, user);
+    }
+
+    async buyBook(buyBookDto: BookDto, user: User): Promise<Book> {
+        return await this.BookRepository.buyBook(buyBookDto, user);
     }
 
     async updateBook(id: number, updateBookDto: BookDto): Promise<void> {

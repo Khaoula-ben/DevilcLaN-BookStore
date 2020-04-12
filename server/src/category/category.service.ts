@@ -22,7 +22,11 @@ export class CategoryService {
         else
             return category;
     }
-
+    //**************************************************************************************************** */
+    async getCategoryByName(category_name: string): Promise<Category> {
+        return await this.CategoryRepository.findOne({ category_name });
+    }
+    //**************************************************************************************************** */
     async  createCategory(createCategoryDto: CategoryDto): Promise<Category> {
         const category = this.CategoryRepository.create(createCategoryDto);
         return await this.CategoryRepository.save(category);

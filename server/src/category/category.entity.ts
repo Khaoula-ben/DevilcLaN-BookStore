@@ -7,8 +7,8 @@ export class Category extends BaseEntity {
     id: number;
     @Column()
     category_name: string;
-    @OneToMany(type => Book, book => book.categories)
-    book: Book[];
+    @OneToMany(type => Book, book => book.id)
+    books: Book[];
 
 
 }

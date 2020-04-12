@@ -7,7 +7,7 @@ import { User } from "src/users/user.entity";
 @EntityRepository(Book)
 export class BookRepository extends Repository<Book>{
 
-    async  createBook(createBookDto: BookDto, user: User): Promise<Book> {
+    async  buyBook(createBookDto: BookDto, user: User): Promise<Book> {
 
         const { book_name, book_page, book_price, bookisbn, book_qauntity } = createBookDto;
         const book = new Book;
