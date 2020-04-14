@@ -14,6 +14,8 @@ export class UsersService {
     private UserRepository: UserRepository, ) { }
     //********************************************************************************************** */
     async getUserByName(username: string): Promise<User> {
+        console.log('===> ', username)
+        console.log('===> ', this.UserRepository.findOne({ username }))
         return await this.UserRepository.findOne({ username });
     }
     //************************************************************************************************* */
